@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>系统公告</title>
+  <style>
+    /* ============ 基础 ============
+     * 原图 3.jpg 1206x2622（3x 屏），逻辑宽度 402px
+     * 浅灰底 rgb(246,246,246)
+     * 2026-08-24 起：正文替换为用户新文案，移除原图拼接痕迹切片（重影/分隔线/底部黑边）
+     */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      background: linear-gradient(160deg, #dcd3c5, #c6bdb0);
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    }
+    .phone {
+      width: 402px;
+      background: #f6f6f6;
+      box-shadow: 0 24px 60px rgba(60, 50, 30, 0.35);
+      position: relative;
+    }
+    .strip { display: block; width: 100%; }
+
+    /* ============ 头部返回热区 ============
+     * 返回箭头为烘焙切片，加透明 a 热区可点击
+     * 像素实测箭头 bbox：设备像素 x41-72 / y63-112（CSS x13.7-24 / y21-37.3）
+     * 热区 44×55.33（≥44px 触控标准），覆盖箭头并留余量，不影响视觉
+     */
+    .back-hotspot {
+      position: absolute;
+      top: 43.33px; left: 0;
+      width: 44px; height: 55.33px;
+      z-index: 1;
+    }
+    .back-hotspot:active { background: rgba(0, 0, 0, 0.05); }
+
+    /* ============ 公告正文 ============ */
+    .article { padding: 0 12.67px 40px 13.67px; }
+    .article h1 {
+      padding-top: 16.33px;
+      font-size: 16px; line-height: 1;
+      font-weight: 600;
+      color: #1a1a1a;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .article .time {
+      padding-top: 16px;
+      font-size: 12px; line-height: 1;
+      color: #8c8c8c;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .article .body {
+      padding-top: 31.67px;
+      font-size: 16px; line-height: 1.41;
+      color: #4d4d4d;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .article .body p { margin: 0; }
+    .article .body a {
+      color: #364a60;
+      text-decoration: none;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <!-- 状态栏 09:34（原图切片） -->
+    <img class="strip" src="assets/b3_statusbar.png" alt="" style="height:43.33px">
+
+    <!-- 头部：返回 + 系统公告 + 分割线（原图切片；返回箭头点击热区见下方 a 标签） -->
+    <img class="strip" src="assets/b3_header.png" alt="" style="height:55.33px">
+    <a class="back-hotspot" href="message.html" aria-label="返回消息中心"></a>
+
+    <div class="article">
+      <h1>会生活商户APP功能上新</h1>
+      <div class="time">2026年8月31号 12:00:00</div>
+      <div class="body">
+        <p>尊敬的合作伙伴：</p>
+        <p>商户APP新增高德扫街榜&amp;闪购流量币自主开通功能，主要内容如下：</p>
+        <p>为商户获得更多曝光量，助力门店生意增长。会生活商户APP(版本3.0.3)新增高德扫街榜与闪购流量币服务开通能力，商户可通过以下路径进入：会生活商户APP-首页轮播图，选择[高德扫街榜]或[闪购流量币]进行相关操作。</p>
+        <p>服务商侧作业流程可点击查看 <a href="https://doc.weixin.qq.com/slide/p3_AfMAFwb-AEYCNWQtxeuYFRru6e91l?scode=ADMAVgf4AAgEEkdsS9AXgAWwaMAKY" target="_blank" rel="noopener">https://doc.weixin.qq.com/slide/p3_AfMAFwb-AEYCNWQtxeuYFRru6e91l?scode=ADMAVgf4AAgEEkdsS9AXgAWwaMAKY</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

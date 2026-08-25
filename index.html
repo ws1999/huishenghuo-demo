@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会生活管家 - 首页</title>
+  <style>
+    /* ============ 基础 ============
+     * 原图 1206x2622（3x 屏），逻辑宽度 402px，以下尺寸均按实测 ÷3 换算
+     */
+    :root {
+      --orange: #E5B165;      /* 主题色（选中态） */
+      --text-dark: #333333;
+      --text-gray: #999999;
+      --text-icon: #3F3F40;
+      --tab-gray: #8C8C8C;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      background: linear-gradient(160deg, #dcd3c5, #c6bdb0);
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    }
+    .phone {
+      width: 402px;
+      /* 页面背景：米色垂直渐变（实测采样拟合：y880 起 #FFF7EB → y1365 #FFF4E4 → y1890+ #FCEEE7） */
+      background-image: linear-gradient(180deg,
+        #FFF7EB 33.5%, #FFF6EA 36.2%, #FFF6E8 41.2%, #FFF5E7 43.9%,
+        #FFF5E6 47.7%, #FFF4E4 52.1%, #FAF3ED 54%, #FCF0E8 62%, #FCEEE7 72.1%, #FCEEE7 100%);
+      box-shadow: 0 24px 60px rgba(60, 50, 30, 0.35);
+      position: relative;
+    }
+    /* 整条切片（原图 1:1 区域） */
+    .strip { display: block; width: 100%; }
+    /* 可点击的整条切片（跳转页面）：a 元素重置默认样式，按压时轻微变暗作触控反馈 */
+    a.strip-link { display: block; cursor: pointer; }
+    a.strip-link:active { filter: brightness(0.97); }
+    /* 左侧背景加深条纹（原图 x0-41 切片，随 y 淡化，烘焙保真） */
+    .stripe-edge { position: absolute; left: 0; top: 0; width: 14px; height: 633.33px; pointer-events: none; }
+
+    /* ============ 统计区（y880-1380 → 166.67px） ============ */
+    .stats { position: relative; height: 166.67px; }
+    .stat-card {
+      position: absolute;
+      background: #fff;
+      padding-left: 22.67px;
+    }
+    /* 实测：标签 14px、数值 = 17px/600 数字 + 14px/600 单位（基线对齐）、② 12px 前接普通空格
+     * CJK 字体用 Heiti SC（轮廓相关度 0.93 最接近原图；ascent 0.86em + descent 0.14em = 满 em 盒，与原图标签带 42dp 吻合） */
+    .stat-card .label { font-size: 14px; line-height: 1; color: var(--text-gray); font-family: "Heiti SC", "PingFang SC", sans-serif; }
+    .stat-card .value { font-size: 17px; line-height: 1; color: var(--text-dark); font-weight: 600; }
+    .stat-card .value .num { font-size: 17px; font-weight: 600; }
+    .stat-card .value .unit { font-size: 14px; font-weight: 600; font-family: "Heiti SC", "PingFang SC", sans-serif; }
+    .stat-card .sup { font-size: 12px; font-family: "Heiti SC", "PingFang SC", sans-serif; }
+    /* 第 1 行：交易笔数 / 笔均交易额（y880-1098，圆角按实测角轮廓：顶角小、底角椭圆） */
+    .card-r1-l, .card-r1-r { border-radius: 2px 2px 5px 5px / 4px 4px 10px 10px; }
+    .card-r1-l { top: 0; left: 28px; width: 168.33px; height: 72.67px; }
+    .card-r1-l .label { margin-top: 12.42px; }
+    .card-r1-l .value { margin-top: 11.5px; }
+    .card-r1-r { top: 0; left: 206px; width: 168.33px; height: 72.67px; }
+    .card-r1-r .label { margin-top: 12.42px; }
+    .card-r1-r .value { margin-top: 11.5px; }
+    /* 第 2 行：新增商户 / 有效商户（y1124-1361，顶角 7.5/8、底角 5.5/11） */
+    .card-r2-l, .card-r2-r { border-radius: 7.5px 7.5px 5.5px 5.5px / 8px 8px 11px 11px; }
+    .card-r2-l { top: 81.33px; left: 28px; width: 168.33px; height: 79px; }
+    .card-r2-l .label { margin-top: 18.42px; }
+    .card-r2-l .value { margin-top: 11.5px; }
+    .card-r2-r { top: 81.33px; left: 206px; width: 168.33px; height: 79px; }
+    .card-r2-r .label { margin-top: 18.42px; }
+    .card-r2-r .value { margin-top: 11.5px; }
+
+    /* ============ 功能图标区（y1380-1700 → 106.67px） ============ */
+    .icons { position: relative; height: 106.67px; }
+    /* 白色窄条卡：实测 x39-1166、y1424-1695，顶角 8px 圆角、底角直角 */
+    .icons-card {
+      position: absolute;
+      top: 14.67px; left: 13px;
+      width: 375.67px; height: 90.33px;
+      background: #fff;
+      border-radius: 8px 8px 0 0;
+    }
+    .icon-item { position: absolute; top: 30px; width: 33.33px; height: 33.33px; }
+    .icon-label {
+      position: absolute; top: 77.2px;
+      width: 60px; margin-left: -30px;
+      text-align: center;
+      font-size: 12px; color: var(--text-icon);
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .pink-edge { position: absolute; right: 0; top: 0; width: 17px; height: 106.67px; }
+
+    /* ============ 底部导航（y2343-2622 → 93px） ============ */
+    .tabbar {
+      position: relative;
+      height: 93px;
+      background: #fff;
+      /* 注意：顶部灰线已在 b_gap 切片内（原图 y2340-2342），此处不能再加 border，否则内容整体下移 */
+    }
+    .tab-icon { position: absolute; top: 9px; width: 43.33px; height: 28.33px; }
+    .tab-label {
+      position: absolute; top: 36.7px;
+      width: 100px; margin-left: -50px;
+      text-align: center;
+      font-size: 11px; color: var(--tab-gray);
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .tab-label.active { color: var(--orange); }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <!-- 状态栏（原图切片） -->
+    <img class="strip" src="assets/b_statusbar.png" alt="" style="height:43.33px">
+
+    <!-- 头部：会生活管家 + 帮助中心（原图切片） -->
+    <img class="strip" src="assets/b_header.png" alt="" style="height:89.33px">
+
+    <!-- 数据卡：今日数据/昨日数据/近7天/本月数据 + 0.07 + 交易金额（原图切片） -->
+    <img class="strip" src="assets/b_datacard.png" alt="" style="height:160.67px">
+
+    <!-- 统计区：2x2 数据卡（HTML 还原；数值 = 大数字 + 小单位，实测同基线） -->
+    <section class="stats">
+      <div class="stat-card card-r1-l">
+        <div class="label">交易笔数</div>
+        <div class="value"><span class="num">7</span><span class="unit">笔</span></div>
+      </div>
+      <div class="stat-card card-r1-r">
+        <div class="label">笔均交易额</div>
+        <div class="value"><span class="num">0.01</span><span class="unit">元</span></div>
+      </div>
+      <div class="stat-card card-r2-l">
+        <div class="label">新增商户</div>
+        <div class="value"><span class="num">0</span><span class="unit">户</span></div>
+      </div>
+      <div class="stat-card card-r2-r">
+        <div class="label">有效商户 <span class="sup">②</span></div>
+        <div class="value"><span class="num">1</span><span class="unit">户</span></div>
+      </div>
+    </section>
+
+    <!-- 功能图标区：商户进件 / 进件草稿 / 机具安装 / 商户管理 / 全部功能 -->
+    <section class="icons">
+      <div class="icons-card"></div>
+      <img class="icon-item" style="left:34px" src="assets/b_icon1.png" alt="">
+      <img class="icon-item" style="left:108.67px" src="assets/b_icon2.png" alt="">
+      <img class="icon-item" style="left:184.67px" src="assets/b_icon3.png" alt="">
+      <img class="icon-item" style="left:259.33px" src="assets/b_icon4.png" alt="">
+      <img class="icon-item" style="left:334.67px" src="assets/b_icon5.png" alt="">
+      <div class="icon-label" style="left:50.67px">商户进件</div>
+      <div class="icon-label" style="left:125.33px">进件草稿</div>
+      <div class="icon-label" style="left:201.33px">机具安装</div>
+      <div class="icon-label" style="left:276px">商户管理</div>
+      <div class="icon-label" style="left:351.33px">全部功能</div>
+      <!-- 右侧粉色装饰（原图切片） -->
+      <img class="pink-edge" src="assets/b_pink.png" alt="">
+    </section>
+
+    <!-- 待处理事项 / 未读消息（原图切片，点击进入消息中心） -->
+    <a class="strip-link" href="message.html"><img class="strip" src="assets/b_list.png" alt="" style="height:63.33px"></a>
+
+    <!-- 底部插画区（原图切片） -->
+    <img class="strip" src="assets/b_gap.png" alt="" style="height:151px">
+
+    <!-- 底部导航：首页 / 报表 / 我的 -->
+    <nav class="tabbar">
+      <img class="tab-icon" style="left:45.63px" src="assets/b_tab1.png" alt="">
+      <img class="tab-icon" style="left:179.34px" src="assets/b_tab2.png" alt="">
+      <img class="tab-icon" style="left:314px" src="assets/b_tab3.png" alt="">
+      <div class="tab-label active" style="left:66.67px">首页</div>
+      <div class="tab-label" style="left:200.94px">报表</div>
+      <div class="tab-label" style="left:334.7px">我的</div>
+    </nav>
+
+    <!-- 左侧背景加深条纹（原图 x0-41 切片） -->
+    <img class="stripe-edge" src="assets/b_left.png" alt="">
+  </div>
+</body>
+</html>

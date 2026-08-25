@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消息中心</title>
+  <style>
+    /* ============ 基础 ============
+     * 原图 2.png 1206x2622（3x 屏），逻辑宽度 402px
+     * 白底页面；列表行高 308dp = 102.67px；图标 103dp 垂直居中；分割线 y294 全宽 + 行间缩进线 x206 起
+     */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      background: linear-gradient(160deg, #dcd3c5, #c6bdb0);
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    }
+    .phone {
+      width: 402px;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(60, 50, 30, 0.35);
+      position: relative;
+    }
+    .strip { display: block; width: 100%; }
+
+    /* ============ 消息列表 ============ */
+    /* 行高实测：公告通知 308dp = 102.67px（+1px 使分割线落在整设备像素 602） */
+    .row { position: relative; height: 103px; }
+    /* 行顶全宽分割线（原图 y294，头部切片未含） */
+    .row::before {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 0.33px;
+      background: #e5e5e5;
+    }
+    /* 行间分割线：x206 起缩进（实测 rgb 229,229,229 宽 1dp） */
+    .row::after {
+      content: "";
+      position: absolute;
+      left: 68.67px; right: 0; bottom: 0;
+      height: 0.33px;
+      background: #e5e5e5;
+    }
+    .row-icon {
+      position: absolute;
+      top: 34px; left: 21px;
+      width: 35px; height: 34.67px;
+    }
+    .row-title {
+      position: absolute;
+      top: 17.67px; left: 68.67px;
+      font-size: 17px; line-height: 1;
+      color: #333;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .row-desc {
+      position: absolute;
+      top: 48.67px; left: 68.67px;
+      font-size: 14px; line-height: 1;
+      color: #999;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .row-date {
+      position: absolute;
+      top: 19.67px; right: 30.67px;
+      font-size: 14px; line-height: 1;
+      color: #999;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+
+    /* ============ 行点击 ============ */
+    /* 整行可点击（跳转公告详情），a 元素重置默认样式，视觉与 div 行一致 */
+    a.row { display: block; color: inherit; text-decoration: none; cursor: pointer; }
+    /* 按压反馈：淡灰背景（仅触碰时短暂显示） */
+    a.row:active { background: rgba(0, 0, 0, 0.04); }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <!-- 状态栏 13:38（原图切片） -->
+    <img class="strip" src="assets/b2_statusbar.png" alt="" style="height:43.33px">
+
+    <!-- 头部：返回 + 消息中心 + 全部已读 + 分割线（原图切片） -->
+    <img class="strip" src="assets/b2_header.png" alt="" style="height:54.67px">
+
+    <!-- 公告通知（仅保留一项，整行点击进入公告详情） -->
+    <a class="row" href="notice.html">
+      <img class="row-icon" src="assets/b2_icon1.png" alt="">
+      <div class="row-title">公告通知</div>
+      <div class="row-desc">会生活商户APP功能上新</div>
+      <div class="row-date">08-31</div>
+    </a>
+
+    <!-- 空白区填充至页底（原图 874dp 页面高度） -->
+    <div style="height:673px"></div>
+  </div>
+</body>
+</html>
