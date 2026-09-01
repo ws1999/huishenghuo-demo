@@ -77,6 +77,26 @@
     a.row { display: block; color: inherit; text-decoration: none; cursor: pointer; }
     /* 按压反馈：淡灰背景（仅触碰时短暂显示） */
     a.row:active { background: rgba(0, 0, 0, 0.04); }
+
+    /* ============ 底部导航（与首页一致） ============ */
+    .tabbar { position: relative; height: 93px; background: #fff; }
+    .tab-icon { position: absolute; top: 9px; width: 43.33px; height: 28.33px; }
+    .tab-label {
+      position: absolute; top: 36.7px;
+      width: 100px; margin-left: -50px;
+      text-align: center;
+      font-size: 11px; color: #8C8C8C;
+      font-family: "Heiti SC", "PingFang SC", sans-serif;
+    }
+    .tab-label.active { color: #E5B165; }
+    /* 首页 tab 透明热区（覆盖图标+标签区域，点击回首页） */
+    .tab-hotspot {
+      position: absolute;
+      left: 16.67px; top: 0;
+      width: 100px; height: 93px;
+      z-index: 1;
+    }
+    .tab-hotspot:active { background: rgba(0, 0, 0, 0.04); }
   </style>
 </head>
 <body>
@@ -95,8 +115,23 @@
       <div class="row-date">08-31</div>
     </a>
 
-    <!-- 空白区填充至页底（原图 874dp 页面高度） -->
-    <div style="height:673px"></div>
+    <!-- 空白区：撑到与首页一致的页底（总高 874dp = 43.33+54.67+103+429+151+93） -->
+    <div style="height:429px"></div>
+
+    <!-- 底部插画区（与首页一致，原图切片） -->
+    <img class="strip" src="assets/b_gap.png" alt="" style="height:151px">
+
+    <!-- 底部导航：首页 / 报表 / 我的（与首页一致，首页 active） -->
+    <nav class="tabbar">
+      <img class="tab-icon" style="left:45.63px" src="assets/b_tab1.png" alt="">
+      <img class="tab-icon" style="left:179.34px" src="assets/b_tab2.png" alt="">
+      <img class="tab-icon" style="left:314px" src="assets/b_tab3.png" alt="">
+      <div class="tab-label active" style="left:66.67px">首页</div>
+      <div class="tab-label" style="left:200.94px">报表</div>
+      <div class="tab-label" style="left:334.7px">我的</div>
+      <!-- 首页 tab 点击热区（回首页） -->
+      <a class="tab-hotspot" href="index.html" aria-label="返回首页"></a>
+    </nav>
   </div>
 </body>
 </html>
