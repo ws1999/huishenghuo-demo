@@ -20,11 +20,18 @@
     }
     .phone {
       width: 402px;
+      height: 874px; /* 与首页总高一致，导航固定在底部 */
+      display: flex;
+      flex-direction: column;
       background: #fff;
       box-shadow: 0 24px 60px rgba(60, 50, 30, 0.35);
       position: relative;
     }
     .strip { display: block; width: 100%; }
+    /* 行与底部导航之间的弹性空白（导航固定在底部） */
+    .flex-spacer { flex: 1; }
+    /* tabbar 顶部横线（与首页烘焙线同位；0.33px 在 1x 屏被舍入不渲染，用 1px） */
+    .tabbar-line { height: 1px; background: #e5e5e5; }
 
     /* ============ 消息列表 ============ */
     /* 行高实测：公告通知 308dp = 102.67px（+1px 使分割线落在整设备像素 602） */
@@ -115,11 +122,11 @@
       <div class="row-date">08-31</div>
     </a>
 
-    <!-- 空白区：撑到与首页一致的页底（总高 874dp = 43.33+54.67+103+429+151+93） -->
-    <div style="height:429px"></div>
+    <!-- 弹性空白：把底部导航推到页底 -->
+    <div class="flex-spacer"></div>
 
-    <!-- 底部插画区（与首页一致，原图切片） -->
-    <img class="strip" src="assets/b_gap.png" alt="" style="height:151px">
+    <!-- tabbar 顶部横线（与首页一致） -->
+    <div class="tabbar-line"></div>
 
     <!-- 底部导航：首页 / 报表 / 我的（与首页一致，首页 active） -->
     <nav class="tabbar">
